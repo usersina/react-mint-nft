@@ -6,10 +6,10 @@ import { ethers } from 'ethers';
 import myEpicNft from './utils/MyEpicNFT.json';
 
 // Constants
-const TWITTER_HANDLE = '_buildspace';
+const TWITTER_HANDLE = 'usersina_';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-// const OPENSEA_LINK = '';
-// const TOTAL_MINT_COUNT = 50;
+const OPENSEA_LINK =
+  'https://testnets.opensea.io/collection/squarenft-dhgszgfwcl';
 
 const CONTRACT_ADDRESS = '0x58236dE08AE74D8C3feeEAD1f3f1cE6132bB6d34';
 
@@ -19,12 +19,25 @@ const App = () => {
   const [maxMints, setMaxMints] = useState(0);
   const [totalMinted, setTotalMinted] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const connectWallet = async () => {
     try {
       const { ethereum } = window;
+
       if (!ethereum) {
         return alert('Metamask is not installed!');
       }
+
+      let chainId = await ethereum.request({ method: 'eth_chainId' });
+      console.log('Connected to chain ' + chainId);
+
+      // String, hex code of the chainId of the Rinkebey test network
+      const rinkebyChainId = '0x4';
+      if (chainId !== rinkebyChainId) {
+        return alert('You are not connected to the Rinkeby Test Network!');
+      }
+
       const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       });
@@ -66,6 +79,7 @@ const App = () => {
   };
 
   const askContractToMintNft = async () => {
+    setLoading(true);
     try {
       const { ethereum } = window;
 
@@ -85,6 +99,7 @@ const App = () => {
         await nftTxn.wait();
 
         setTotalMinted(totalMinted + 1);
+        setLoading(false);
 
         return console.log(
           `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
@@ -93,6 +108,8 @@ const App = () => {
       console.log('Ethereum object does not exist!');
     } catch (error) {
       console.log(error);
+      alert('Could not mint!');
+      setLoading(false);
     }
   };
 
@@ -146,10 +163,17 @@ const App = () => {
           <p className="sub-text">
             Each unique. Each beautiful. Discover your NFT today.
           </p>
-          <p className="sub-text">
-            Minted so far: {totalMinted} / {maxMints}
+          <p className="sub-text mint-count">
+            Minted so far:{' '}
+            <strong>
+              {totalMinted} / {maxMints}
+            </strong>
           </p>
-          {currentAccount === '' ? (
+          {loading ? (
+            <button className="cta-button connect-wallet-button">
+              Minting your NFT ...
+            </button>
+          ) : currentAccount === '' ? (
             <button
               className="cta-button connect-wallet-button"
               onClick={connectWallet}
@@ -165,6 +189,13 @@ const App = () => {
             </button>
           )}
         </header>
+        <button
+          className="cta-button opensea-button"
+          style={{ maxWidth: '600px', marginRight: 'auto', marginLeft: 'auto' }}
+          onClick={() => window.open(OPENSEA_LINK)}
+        >
+          View Collection on OpenSea
+        </button>
         <footer className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
