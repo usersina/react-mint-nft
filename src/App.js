@@ -43,6 +43,7 @@ const App = () => {
       });
       console.log('Connected', accounts[0]);
 
+      setCurrentAccount(accounts[0]);
       // This is executed when a user connects their wallet for the first time
       setupEventListener();
     } catch (error) {
