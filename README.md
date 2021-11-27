@@ -1,7 +1,13 @@
 # Epic NFTs Minting
 This is a small React application that connects to your **Ethereum metamask wallet rinkeby network** and allows you to mint **NFTs**. You can also view the collection of previously minted NFTs in **OpenSea**.
 
-![](/media/react-nft.jpg)
+You can check the [live demo here!](https://youthful-stonebraker-bb21e1.netlify.app/)
+
+<div align="center">
+
+![](/media/react-nft.JPG)
+
+</div>
 
 To run locally simply:
 1. Run `npm install`
