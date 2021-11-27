@@ -9,9 +9,9 @@ import myEpicNft from './utils/MyEpicNFT.json';
 const TWITTER_HANDLE = 'usersina_';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const OPENSEA_LINK =
-  'https://testnets.opensea.io/collection/squarenft-dhgszgfwcl';
+  'https://testnets.opensea.io/collection/squarenft-zo3cyomt91';
 
-const CONTRACT_ADDRESS = '0x58236dE08AE74D8C3feeEAD1f3f1cE6132bB6d34';
+const CONTRACT_ADDRESS = '0x188358414f296530692127399A1e8F134D213bDD';
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState('');
